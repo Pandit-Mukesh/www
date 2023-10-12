@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>clock</title>
+	<style type="text/css">
+		@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Poppins:wght@300;400;600&display=swap');
+
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: 'poppins',sans-serif;
+			color: #ff6600;
+		}
+			body{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 100vh;
+			background:linear-gradient(24deg,#fff 50%,#000 50%);
+		}
+		.container{
+			position: relative;
+			border-radius: 50%;
+			background:rgba(0, 0, 0, .4);
+			box-shadow: 0px 15px 25px rgba(0, 0, 0, .1),
+			0px 25px 45px rgba(0, 0, 0, .1);
+		}
+		.clock{
+			position: relative;
+			width: 300px;
+			height: 300px;
+			border-radius: 50%;
+			background:rgba(0, 0, 0, .4);
+			border:8px solid #ff6600;
+			box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .6);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.clock span{
+			position: absolute;
+			transform: rotate(calc(30deg * var(--i)));
+			inset:10px;
+			text-align: center;
+		}
+		.clock span b{
+			transform: rotate(calc(-30deg * var(--i)));
+			display: inline-block;
+			font-size: 25px;
+		}
+		.clock::before{
+			content: '';
+			position: absolute;
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background:#fff;
+		}
+		.hand{
+			position: absolute;
+			display: flex;
+			justify-content: center;
+			align-items: flex-end;
+
+		}
+		.hand i{
+			position: absolute;
+			background-color:var(--clr);
+			height: var(--h);
+			width: var(--w);
+			border-radius: 8px;
+			z-index: -2;
+		}
+		.active{
+			color: #fff;
+		}
+		.other{
+			position: absolute;
+			padding:5px 0px;
+			letter-spacing: 3px;
+			//border: 1px solid black;
+			color:#fff;
+			
+
+		}
+		#button{
+			position: absolute;
+			box-sizing: border-box;
+			padding: 15px 70px;
+			border-radius: 8px;
+			font-size: 22px;
+			font-weight: 500;
+			display: inline-block;
+			color: white;
+			background: black;
+			box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, .3),
+			0px 0px 5px 5px rgba(0, 0, 0, .5);
+			cursor: pointer;
+		}
+		.black{
+			color: white;
+			//background-color: black;
+			background:linear-gradient(24deg,#fff 50%,#000 50%);
+
+		}
+		.white{
+			color: black;
+			//background-color: white;
+			background:linear-gradient(204.5deg,#fff 50%,#000 50%);
+		}
+		
+	</style>
+
+	
+</head>
+<body id="body">
+  <div class="container">
+  	<div class="clock">
+  		<div style="--clr:#fff; --h:60px;--w:6px;" id="hour" class="hand"><i></i></div>
+  			<div style="--clr:#ff0000; --h:84px;--w:4px;" id="min" class="hand"><i></i></div>
+  				<div style="--clr:#66ffff; --h:94px;--w:2px;" id="sec" class="hand"><i></i></div>
+  		<span style="--i:1;"><b>1</b></span>
+  		<span style="--i:2;"><b>2</b></span>
+  		<span style="--i:3;"><b class="active">3</b></span>
+  		<span style="--i:4;"><b>4</b></span>
+  		<span style="--i:5;"><b>5</b></span>
+  		<span style="--i:6;"><b class="active">6</b></span>
+  		<span style="--i:7;"><b>7</b></span>
+  		<span style="--i:8;"><b>8</b></span>
+  		<span style="--i:9;"><b class="active">9</b></span>
+  		<span style="--i:10;"><b>10</b></span>
+  		<span style="--i:11;"><b>11</b></span>
+  		<span style="--i:12;"><b class="active">12</b></span>
+  	
+  	</div>
+  
+<div id="button" class="black">change mode</div>
+  </div>
+
+ <div class="other">
+  <span>MUKESH SHARMA</span>
+  </div>
+
+  <hr/>
+  <script>
+	//12hours=360deg
+	//1hour=360/12=30deg
+	//h hour=30h:60min=30
+	//1min=30/60=1/2                     60sec=360deg
+	//m min=(1/2)m                       1sec=360/60=6
+	//60min=360                           s sec=6s
+	//1min=6deg
+	//m min=6min
+       let hr=document.getElementById('hour');
+       let min=document.getElementById('min');
+       let sec=document.getElementById('sec');
+       let body=document.getElementById('body');
+ 	     let button=document.getElementById('button');
+ 	  
+       //let body=document.querySelector('body');
+     //  let modeSwitch=document.querySelector('.made-switch');
+       //if (localStorage.getItem("mode")==="Dark Mode") {
+       //	body.classList.add("dark");
+       	//modeSwitch.textContent="Light Mode";
+       //}
+       /*modeSwitch.addEventListener("click",()=>{
+       	body.classList.toggle("dark");
+       	let isDarkMode=body.classList.contains("dark");
+       console.log(isDarkMode);
+       modeSwitch.textContent=isDarkMode ? "Light Mode": "Dark Mode";
+       localStorage.setItem("mode",isDarkMode ? "Dark Mode":"light Mode");
+       });*/
+       function displayTime() {
+       	let date=new Date();
+         //getting the hour , minute and second in millisecond//
+       	let hh=date.getHours();
+       	let mm=date.getMinutes();
+       	let ss=date.getSeconds();
+
+        let hRotation= 30*hh + mm/2;
+        let mRotation= 6*mm;
+        let sRotation= 6*ss;
+        hr.style.transform =`rotate(${hRotation}deg)`;
+         min.style.transform =`rotate(${mRotation}deg)`;
+          sec.style.transform =`rotate(${sRotation}deg)`;
+       }
+       setInterval(displayTime,1000);
+ 	//window.onload=function(){
+  	button.onclick=function () {
+ 		if(body.className=="black"){
+ 			body.className="white";
+ 			button.className="black";
+ 		}
+ 		else{
+ 			body.className="black"
+ 			button.className="white";
+ 		}
+ 	};
+	
+// 	}
+ 	
+ </script>
+</body>
+</html>
